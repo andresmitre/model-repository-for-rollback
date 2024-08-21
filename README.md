@@ -1,2 +1,2 @@
-# model-repository-for-rollback
-Repository for trial
+# snowflake_git
+Testing git integration.
