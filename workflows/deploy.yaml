@@ -1,0 +1,51 @@
+# Very basic GitHub Action workflow, goes in ~/.github/workflows/deploy.yaml
+
+name: snowflake-rollback
+
+# Controls when the workflow will run
+on:
+  # Triggers the workflow on any branch or tag commit
+  push:
+    branches:
+      - "*"
+    tags:
+      - "v*"
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  # This workflow contains a single job called "deploy"
+  deploy:
+    runs-on: ubuntu-latest
+
+    env:
+      SF_PWD: ${{ secrets.SF_PWD}}
+      SF_ACCOUNT: ${{ secrets.SF_ACCOUNT }}
+      SF_USER: ${{ secrets.SF_USERNAME }}
+      SF_DATABASE: ${{ secrets.SF_DATABASE }}
+      SF_SCHEMA: ${{ secrets.SF_SCHEMA }}
+      SF_ROLE: ${{ secrets.SF_ROLE }}
+      SF_WAREHOUSE: ${{ secrets.SF_WAREHOUSE }}
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v3
+
+      - name: Install SnowSQL
+        run: |
+          curl -O https://sfc-repo.snowflakecomputing.com/snowsql/bootstrap/1.2/linux_x86_64/snowsql-1.2.9-linux_x86_64.bash
+          SNOWSQL_DEST=~/bin SNOWSQL_LOGIN_SHELL=~/.profile bash snowsql-1.2.9-linux_x86_64.bash
+      - name: Upload artifact to SnowSQL
+        run: |
+          ~/bin/snowsql -q 'put file://'$(pwd)'/storedproc.py @~/${{ github.ref_name }} overwrite=true' -o friendly=false
+      - name: Create or update Stored PRocedure
+        run: |
+          ~/bin/snowsql -q 'CREATE OR REPLACE PROCEDURE  MYPROC(message STRING)
+                                        RETURNS STRING
+                                        LANGUAGE PYTHON
+                                        RUNTIME_VERSION = '\''3.11'\''
+                                        PACKAGES = ('')
+                                        IMPORTS = ('\''@~/${{ github.ref_name }}/storedproc.py'\'')
+                                        HANDLER = '\''storedproc.run'\'';' -o friendly=false
