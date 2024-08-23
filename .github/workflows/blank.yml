@@ -18,28 +18,27 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
 
-  steps:
-        - name: Checkout repository
-          uses: actions/checkout@v4
-          with:
-            ref: exp
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          ref: exp
 
-        - name: Setup Python 3.11
-          uses: actions/setup-python@v4
-          with:
-            python-version: '3.11'
-        
-        - name: Install Python packages
-          run: pip install -r requirements.txt
+      - name: Setup Python 3.11
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+      
+      - name: Install Python packages
+        run: pip install -r requirements.txt
 
-        - name: Creates pipeline
-          env:
-            SF_ACCOUNT: ${{ secrets.SF_ACCOUNT }}
-            SF_USER: ${{ secrets.SF_USERNAME }}
-            SF_PWD: ${{ secrets.SF_PASSWORD }}
-            SF_ROLE: ${{ secrets.SF_ROLE }}
-            SF_WAREHOUSE: ${{ secrets.SF_WAREHOUSE }}
-            SF_DATABASE: ${{ secrets.SF_DATABASE }}
-            SF_SCHEMA: ${{ secrets.SF_SCHEMA }}
-          run: 
-          python $GITHUB_WORKSPACE/storedproc.py
+      - name: Creates pipeline
+        env:
+          SF_ACCOUNT: ${{ secrets.SF_ACCOUNT }}
+          SF_USER: ${{ secrets.SF_USERNAME }}
+          SF_PWD: ${{ secrets.SF_PASSWORD }}
+          SF_ROLE: ${{ secrets.SF_ROLE }}
+          SF_WAREHOUSE: ${{ secrets.SF_WAREHOUSE }}
+          SF_DATABASE: ${{ secrets.SF_DATABASE }}
+          SF_SCHEMA: ${{ secrets.SF_SCHEMA }}
+        run: python $GITHUB_WORKSPACE/storedproc.py
