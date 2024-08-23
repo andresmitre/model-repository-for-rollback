@@ -3,13 +3,13 @@ import os
 
 # Obtener las credenciales de Snowflake desde los secretos configurados
 creds = {
-  "account"   : os.getenv('SNOWFLAKE_ACCOUNT'),
-  "user"      : os.getenv('SNOWFLAKE_USER'),
-  "password"  : os.getenv('SNOWFLAKE_PASSWORD'),
-  "role"      : os.getenv('SNOWFLAKE_ROLE'),
-  "warehouse" : os.getenv('SNOWFLAKE_WAREHOUSE'),
-  "database"  : os.getenv('SNOWFLAKE_DATABASE'),
-  "schema"    : os.getenv('SNOWFLAKE_SCHEMA')
+  "account"   : os.getenv('SF_ACCOUNT'),
+  "user"      : os.getenv('SF_USER'),
+  "password"  : os.getenv('SF_PWD'),
+  "role"      : os.getenv('SF_ROLE'),
+  "warehouse" : os.getenv('SF_WAREHOUSE'),
+  "database"  : os.getenv('SF_DATABASE'),
+  "schema"    : os.getenv('SF_SCHEMA')
 }
 
 # Crear una sesión de Snowflake
