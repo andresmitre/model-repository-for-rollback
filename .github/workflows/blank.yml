@@ -35,8 +35,8 @@ jobs:
       - name: Creates pipeline
         env:
           SF_ACCOUNT: ${{ secrets.SF_ACCOUNT }}
-          SF_USER: ${{ secrets.SF_USERNAME }}
-          SF_PWD: ${{ secrets.SF_PASSWORD }}
+          SF_USER: ${{ secrets.SF_USER }}
+          SF_PWD: ${{ secrets.SF_PWD }}
           SF_ROLE: ${{ secrets.SF_ROLE }}
           SF_WAREHOUSE: ${{ secrets.SF_WAREHOUSE }}
           SF_DATABASE: ${{ secrets.SF_DATABASE }}
