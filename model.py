@@ -26,12 +26,25 @@ session = Session.builder.configs(creds).create()
 
 print("sesion establecida")
 
-# Insertar datos en tabla
-insert_data_query = """
-INSERT INTO REGRESSION_DB.PUBLIC.SALES_ADVERTISING (ID, ADVERTISING_EXPENSE, SALES) VALUES
-(55, 100.00, 200.00),
-(55, 300.00, 400.00);
-"""
-session.sql(insert_data_query).collect()
+try:
+    # Iniciar la transacción
+    session.sql("BEGIN;").collect()
+    print("Transacción iniciada")
 
-print("Datos insertados")
+    # Insertar datos en la tabla
+    insert_data_query = """
+    INSERT INTO REGRESSION_DB.PUBLIC.SALES_ADVERTISING (ID, ADVERTISING_EXPENSE, SALES) VALUES
+    (55, 100.00, 200.00),
+    (55, 300.00, 400.00);
+    """
+    session.sql(insert_data_query).collect()
+    print("Datos insertados")
+
+    # Confirmar la transacción
+    session.sql("COMMIT;").collect()
+    print("Transacción confirmada")
+
+except Exception as e:
+    # Si ocurre un error, revertir la transacción
+    session.sql("ROLLBACK;").collect()
+    print("Error durante la transacción, se ha revertido:", e)
