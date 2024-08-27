@@ -21,32 +21,59 @@ try:
     session.sql("BEGIN;").collect()
     print("Transacción iniciada")
 
-    # Primera inserción sin errores en SALES_ADVERTISING
-    print("Realizando primera inserción en SALES_ADVERTISING...")
-    insert_data_query_1 = """
-    INSERT INTO REGRESSION_DB.PUBLIC.SALES_ADVERTISING (ID, ADVERTISING_EXPENSE, SALES) VALUES
-    (99, 100.00, 200.00);
+    # Crear tablas y vistas en el esquema
+    print("Creando tabla SALES_ADVERTISING...")
+    create_table_query = """
+    CREATE OR REPLACE TABLE REGRESSION_DB.PUBLIC.SALES_ADVERTISING (
+        ID INT,
+        ADVERTISING_EXPENSE FLOAT,
+        SALES FLOAT
+    );
     """
-    session.sql(insert_data_query_1).collect()
-    print("Primera inserción realizada en SALES_ADVERTISING")
+    session.sql(create_table_query).collect()
+    print("Tabla SALES_ADVERTISING creada")
 
-    # Inserción en la tabla SALES
-    print("Realizando inserción en SALES...")
-    insert_data_query_3 = """
-    INSERT INTO REGRESSION_DB.PUBLIC.SALES (SALE_ID, CUSTOMER_ID, PRODUCT_ID, SALE_DATE, QUANTITY, TOTAL_AMOUNT) VALUES
-    (9, 101, 202, '2024-08-27', 2, 150.00);
+    print("Creando vista SALES_VIEW...")
+    create_view_query = """
+    CREATE OR REPLACE VIEW REGRESSION_DB.PUBLIC.SALES_VIEW AS
+    SELECT SALE_ID, CUSTOMER_ID, PRODUCT_ID, SALE_DATE, QUANTITY, TOTAL_AMOUNT
+    FROM REGRESSION_DB.PUBLIC.SALES;
     """
-    session.sql(insert_data_query_3).collect()
-    print("Inserción realizada en SALES")
+    session.sql(create_view_query).collect()
+    print("Vista SALES_VIEW creada")
 
-    # Segunda inserción con un error deliberado en SALES_ADVERTISING
-    #print("Realizando segunda inserción en SALES_ADVERTISING con error deliberado...")
-    #insert_data_query_2 = """
-    #INSERT INTO REGRESSION_DB.PUBLIC.SALES_ADVERTISING (ID, ADVERTISING_EXPENSE, SALES, NON_EXISTENT_COLUMN) VALUES
-    #(99, 300.00, 400.00, 'error');
-    #"""
-    #session.sql(insert_data_query_2).collect()
-    #print("Segunda inserción realizada en SALES_ADVERTISING")
+    # Crear nuevas features en el feature store (simulado)
+    print("Creando nuevas features en el feature store...")
+    create_features_query = """
+    CREATE OR REPLACE TABLE REGRESSION_DB.PUBLIC.FEATURE_STORE (
+        FEATURE_ID INT,
+        FEATURE_NAME STRING,
+        FEATURE_VALUE FLOAT
+    );
+    """
+    session.sql(create_features_query).collect()
+    print("Nuevas features creadas en el feature store")
+
+    # Inserción o actualización en tablas o vistas existentes
+    print("Actualizando tabla SALES_ADVERTISING...")
+    insert_update_query = """
+    INSERT INTO REGRESSION_DB.PUBLIC.SALES_ADVERTISING (ID, ADVERTISING_EXPENSE, SALES)
+    VALUES (100, 150.00, 250.00)
+    ON CONFLICT(ID) DO UPDATE
+    SET ADVERTISING_EXPENSE = EXCLUDED.ADVERTISING_EXPENSE, SALES = EXCLUDED.SALES;
+    """
+    session.sql(insert_update_query).collect()
+    print("Tabla SALES_ADVERTISING actualizada")
+
+    print("Actualizando feature store...")
+    insert_feature_store_query = """
+    INSERT INTO REGRESSION_DB.PUBLIC.FEATURE_STORE (FEATURE_ID, FEATURE_NAME, FEATURE_VALUE)
+    VALUES (1, 'New Feature', 300.00)
+    ON CONFLICT(FEATURE_ID) DO UPDATE
+    SET FEATURE_NAME = EXCLUDED.FEATURE_NAME, FEATURE_VALUE = EXCLUDED.FEATURE_VALUE;
+    """
+    session.sql(insert_feature_store_query).collect()
+    print("Feature store actualizado")
 
     # Confirmar la transacción
     print("Confirmando transacción...")
