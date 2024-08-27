@@ -55,25 +55,25 @@ try:
     print("Nuevas features creadas en el feature store")
 
     # Inserción o actualización en tablas o vistas existentes
-    print("Actualizando tabla SALES_ADVERTISING...")
-    insert_update_query = """
-    INSERT INTO REGRESSION_DB.PUBLIC.SALES_ADVERTISING (ID, ADVERTISING_EXPENSE, SALES)
-    VALUES (100, 150.00, 250.00)
-    ON CONFLICT(ID) DO UPDATE
-    SET ADVERTISING_EXPENSE = EXCLUDED.ADVERTISING_EXPENSE, SALES = EXCLUDED.SALES;
-    """
-    session.sql(insert_update_query).collect()
-    print("Tabla SALES_ADVERTISING actualizada")
+    #print("Actualizando tabla SALES_ADVERTISING...")
+    #insert_update_query = """
+    #INSERT INTO REGRESSION_DB.PUBLIC.SALES_ADVERTISING (ID, ADVERTISING_EXPENSE, SALES)
+    #VALUES (100, 150.00, 250.00)
+    #ON CONFLICT(ID) DO UPDATE
+    #SET ADVERTISING_EXPENSE = EXCLUDED.ADVERTISING_EXPENSE, SALES = EXCLUDED.SALES;
+    #"""
+    #session.sql(insert_update_query).collect()
+    #print("Tabla SALES_ADVERTISING actualizada")
 
-    print("Actualizando feature store...")
-    insert_feature_store_query = """
-    INSERT INTO REGRESSION_DB.PUBLIC.FEATURE_STORE (FEATURE_ID, FEATURE_NAME, FEATURE_VALUE)
-    VALUES (1, 'New Feature', 300.00)
-    ON CONFLICT(FEATURE_ID) DO UPDATE
-    SET FEATURE_NAME = EXCLUDED.FEATURE_NAME, FEATURE_VALUE = EXCLUDED.FEATURE_VALUE;
-    """
-    session.sql(insert_feature_store_query).collect()
-    print("Feature store actualizado")
+    #print("Actualizando feature store...")
+    #insert_feature_store_query = """
+    #INSERT INTO REGRESSION_DB.PUBLIC.FEATURE_STORE (FEATURE_ID, FEATURE_NAME, FEATURE_VALUE)
+    #VALUES (1, 'New Feature', 300.00)
+    #ON CONFLICT(FEATURE_ID) DO UPDATE
+    #SET FEATURE_NAME = EXCLUDED.FEATURE_NAME, FEATURE_VALUE = EXCLUDED.FEATURE_VALUE;
+    #"""
+    #session.sql(insert_feature_store_query).collect()
+    #print("Feature store actualizado")
 
     # Confirmar la transacción
     print("Confirmando transacción...")
