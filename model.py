@@ -23,26 +23,27 @@ try:
     # Primera inserción sin errores en SALES_ADVERTISING
     insert_data_query_1 = """
     INSERT INTO REGRESSION_DB.PUBLIC.SALES_ADVERTISING (ID, ADVERTISING_EXPENSE, SALES) VALUES
-    (55, 100.00, 200.00);
+    (66, 100.00, 200.00);
     """
     session.sql(insert_data_query_1).collect()
     print("Primera inserción realizada en SALES_ADVERTISING")
 
+    # Inserción en la tabla SALES
+    insert_data_query_3 = """
+    INSERT INTO REGRESSION_DB.PUBLIC.SALES (SALE_ID, CUSTOMER_ID, PRODUCT_ID, SALE_DATE, QUANTITY, TOTAL_AMOUNT) VALUES
+    (66, 101, 202, '2024-08-27', 2, 150.00);
+    """
+    session.sql(insert_data_query_3).collect()
+    print("Inserción realizada en SALES")
+
     # Segunda inserción con un error deliberado en SALES_ADVERTISING
     insert_data_query_2 = """
     INSERT INTO REGRESSION_DB.PUBLIC.SALES_ADVERTISING (ID, ADVERTISING_EXPENSE, SALES, NON_EXISTENT_COLUMN) VALUES
-    (55, 300.00, 400.00, 'error');
+    (66, 300.00, 400.00, 'error');
     """
     session.sql(insert_data_query_2).collect()
     print("Segunda inserción realizada en SALES_ADVERTISING")
 
-    # Inserción en la tabla SALES
-    insert_data_query_3 = """
-    INSERT INTO REGRESSION_DB.PUBLIC.SALES (SALE_ID, CUSTOMER_ID, PRODUCT_ID, SALE_DATE, QUANTITY, TOTAL_AMOUNT) VALUES
-    (1, 101, 202, '2024-08-27', 2, 150.00);
-    """
-    session.sql(insert_data_query_3).collect()
-    print("Inserción realizada en SALES")
 
     # Confirmar la transacción
     session.sql("COMMIT;").collect()
