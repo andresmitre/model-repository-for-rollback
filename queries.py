@@ -31,13 +31,13 @@ except Exception as e:
     raise
 
 # Define tus queries como cadenas
-insert_data_query_customers = """
-INSERT INTO REGRESSION_DB.PUBLIC.CUSTOMERS (CUSTOMER_ID, CUSTOMER_NAME, CUSTOMER_EMAIL, JOIN_DATE) VALUES
-(1, 'John Doe', 'john.doe@example.com', '2023-01-01'),
-(2, 'Jane Smith', 'jane.smith@example.com', '2023-02-01'),
-(3, 'Alice Johnson', 'alice.johnson@example.com', '2023-03-01'),
-(4, 'Bob Brown', 'bob.brown@example.com', '2023-04-01'),
-(5, 'Charlie Davis', 'charlie.davis@example.com', '2023-05-01');
+insert_data_query = """
+INSERT INTO REGRESSION_DB.PUBLIC.SALES_ADVERTISING (ID, ADVERTISING_EXPENSE, SALES) VALUES
+(10, 100.00, 200.00),
+(20, 150.00, 250.00),
+(30, 200.00, 300.00),
+(40, 250.00, 350.00),
+(50, 300.00, 400.00);
 """
 # Función para ejecutar los queries dentro de una transacción
 def execute_queries():
@@ -45,7 +45,7 @@ def execute_queries():
         sql_command = f"""
         BEGIN;
 
-        {insert_data_query_customers}
+        {insert_data_query}
 
         COMMIT;
         """
