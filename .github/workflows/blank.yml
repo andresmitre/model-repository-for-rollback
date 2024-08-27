@@ -14,7 +14,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  # This workflow contains a single job called "deploy"
+  # Este trabajo maneja el despliegue
   deploy:
     runs-on: ubuntu-latest
 
@@ -41,4 +41,25 @@ jobs:
           SF_WAREHOUSE: ${{ secrets.SF_WAREHOUSE }}
           SF_DATABASE: ${{ secrets.SF_DATABASE }}
           SF_SCHEMA: ${{ secrets.SF_SCHEMA }}
-        run: python $GITHUB_WORKSPACE/queries.py
+        run: python $GITHUB_WORKSPACE/model.py
+
+      - name: Promote tables to production
+        run: |
+          snowsql -c your_connection -q "
+            BEGIN;
+
+            -- Insertar datos en la tabla SALES_ADVERTISING
+            INSERT INTO REGRESSION_DB.PUBLIC.SALES_ADVERTISING (ID, ADVERTISING_EXPENSE, SALES) VALUES
+            (33, 100.00, 200.00),
+            (33, 300.00, 400.00);
+
+            -- Si todo fue exitoso, hacer commit
+            COMMIT;
+          "
+        continue-on-error: true
+
+      - name: Rollback table promotion
+        if: failure()
+        run: |
+          echo "Error during table promotion, rollback initiated"
+          snowsql -c your_connection -q "ROLLBACK;"
