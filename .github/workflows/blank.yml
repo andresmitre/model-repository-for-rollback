@@ -41,5 +41,6 @@ jobs:
           SF_WAREHOUSE: ${{ secrets.SF_WAREHOUSE }}
           SF_DATABASE: ${{ secrets.SF_DATABASE }}
           SF_SCHEMA: ${{ secrets.SF_SCHEMA }}
-        run: python $GITHUB_WORKSPACE/model.py
+        run: python $GITHUB_WORKSPACE/create_objects.py 
+             python $GITHUB_WORKSPACE/inserciones.py
 

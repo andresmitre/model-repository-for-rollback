@@ -79,6 +79,7 @@ try:
     print("Confirmando transacción...")
     session.sql("COMMIT;").collect()
     print("Transacción confirmada")
+    print("create_objects.py ha terminado.")
 
 except Exception as e:
     # Si ocurre un error, revertir la transacción
