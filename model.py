@@ -30,15 +30,6 @@ try:
     session.sql(insert_data_query_1).collect()
     print("Primera inserción realizada en SALES_ADVERTISING")
 
-    # Segunda inserción con un error deliberado en SALES_ADVERTISING
-    print("Realizando segunda inserción en SALES_ADVERTISING con error deliberado...")
-    insert_data_query_2 = """
-    INSERT INTO REGRESSION_DB.PUBLIC.SALES_ADVERTISING (ID, ADVERTISING_EXPENSE, SALES, NON_EXISTENT_COLUMN) VALUES
-    (55, 300.00, 400.00, 'error');
-    """
-    session.sql(insert_data_query_2).collect()
-    print("Segunda inserción realizada en SALES_ADVERTISING")
-
     # Inserción en la tabla SALES
     print("Realizando inserción en SALES...")
     insert_data_query_3 = """
@@ -47,6 +38,15 @@ try:
     """
     session.sql(insert_data_query_3).collect()
     print("Inserción realizada en SALES")
+
+    # Segunda inserción con un error deliberado en SALES_ADVERTISING
+    print("Realizando segunda inserción en SALES_ADVERTISING con error deliberado...")
+    insert_data_query_2 = """
+    INSERT INTO REGRESSION_DB.PUBLIC.SALES_ADVERTISING (ID, ADVERTISING_EXPENSE, SALES, NON_EXISTENT_COLUMN) VALUES
+    (55, 300.00, 400.00, 'error');
+    """
+    session.sql(insert_data_query_2).collect()
+    print("Segunda inserción realizada en SALES_ADVERTISING")
 
     # Confirmar la transacción
     print("Confirmando transacción...")
