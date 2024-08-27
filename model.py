@@ -12,40 +12,37 @@ creds = {
   "schema"    : os.getenv('SF_SCHEMA')
 }
 
-# Imprimir las credenciales para depuración
-print("SF_ACCOUNT:", creds["account"])
-print("SF_USER:", creds["user"])
-print("SF_PWD:", creds["password"])
-print("SF_ROLE:", creds["role"])
-print("SF_WAREHOUSE:", creds["warehouse"])
-print("SF_DATABASE:", creds["database"])
-print("SF_SCHEMA:", creds["schema"])
-
 # Crear una sesión de Snowflake
 session = Session.builder.configs(creds).create()
-
-print("sesion establecida")
 
 try:
     # Iniciar la transacción
     session.sql("BEGIN;").collect()
     print("Transacción iniciada")
 
-    # Primera inserción sin errores
+    # Primera inserción sin errores en SALES_ADVERTISING
     insert_data_query_1 = """
     INSERT INTO REGRESSION_DB.PUBLIC.SALES_ADVERTISING (ID, ADVERTISING_EXPENSE, SALES) VALUES
     (55, 100.00, 200.00);
     """
     session.sql(insert_data_query_1).collect()
-    print("Primera inserción realizada")
+    print("Primera inserción realizada en SALES_ADVERTISING")
 
-    # Segunda inserción con un error deliberado
+    # Segunda inserción con un error deliberado en SALES_ADVERTISING
     insert_data_query_2 = """
     INSERT INTO REGRESSION_DB.PUBLIC.SALES_ADVERTISING (ID, ADVERTISING_EXPENSE, SALES, NON_EXISTENT_COLUMN) VALUES
     (55, 300.00, 400.00, 'error');
     """
     session.sql(insert_data_query_2).collect()
-    print("Segunda inserción realizada")
+    print("Segunda inserción realizada en SALES_ADVERTISING")
+
+    # Inserción en la tabla SALES
+    insert_data_query_3 = """
+    INSERT INTO REGRESSION_DB.PUBLIC.SALES (SALE_ID, CUSTOMER_ID, PRODUCT_ID, SALE_DATE, QUANTITY, TOTAL_AMOUNT) VALUES
+    (1, 101, 202, '2024-08-27', 2, 150.00);
+    """
+    session.sql(insert_data_query_3).collect()
+    print("Inserción realizada en SALES")
 
     # Confirmar la transacción
     session.sql("COMMIT;").collect()
@@ -55,3 +52,7 @@ except Exception as e:
     # Si ocurre un error, revertir la transacción
     session.sql("ROLLBACK;").collect()
     print("Error durante la transacción, se ha revertido:", e)
+
+    # Obtener el ID de la última consulta fallida
+    query_id = session.sql("SELECT LAST_QUERY_ID();").collect()[0][0]
+    print("ID de la consulta fallida:", query_id)
