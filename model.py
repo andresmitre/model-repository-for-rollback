@@ -31,11 +31,11 @@ try:
     session.sql("BEGIN;").collect()
     print("Transacción iniciada")
 
-    # Insertar datos en la tabla
+    # Insertar datos en la tabla con un error deliberado
     insert_data_query = """
-    INSERT INTO REGRESSION_DB.PUBLIC.SALES_ADVERTISING (ID, ADVERTISING_EXPENSE, SALES) VALUES
-    (55, 100.00, 200.00),
-    (55, 300.00, 400.00);
+    INSERT INTO REGRESSION_DB.PUBLIC.SALES_ADVERTISING (ID, ADVERTISING_EXPENSE, SALES, NON_EXISTENT_COLUMN) VALUES
+    (55, 100.00, 200.00, 'error'),
+    (55, 300.00, 400.00, 'error');
     """
     session.sql(insert_data_query).collect()
     print("Datos insertados")
