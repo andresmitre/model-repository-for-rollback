@@ -1,58 +1,6 @@
 from snowflake.snowpark import Session
 import os
 
-# Obtener las credenciales de Snowflake desde los secretos configurados
-creds = {
-  "account"   : os.getenv('SF_ACCOUNT'),
-  "user"      : os.getenv('SF_USER'),
-  "password"  : os.getenv('SF_PWD'),
-  "role"      : os.getenv('SF_ROLE'),
-  "warehouse" : os.getenv('SF_WAREHOUSE'),
-  "database"  : os.getenv('SF_DATABASE'),
-  "schema"    : os.getenv('SF_SCHEMA')
-}
-
-# Crear una sesión de Snowflake
-session = Session.builder.configs(creds).create()
-
-# Insertar datos en la tabla CUSTOMERS
-insert_data_query_customers = """
-INSERT INTO REGRESSION_DB.PUBLIC.CUSTOMERS (CUSTOMER_ID, CUSTOMER_NAME, CUSTOMER_EMAIL, JOIN_DATE) VALUES
-(1, 'John Doe', 'john.doe@example.com', '2023-01-01'),
-(2, 'Jane Smith', 'jane.smith@example.com', '2023-02-01'),
-(3, 'Alice Johnson', 'alice.johnson@example.com', '2023-03-01'),
-(4, 'Bob Brown', 'bob.brown@example.com', '2023-04-01'),
-(5, 'Charlie Davis', 'charlie.davis@example.com', '2023-05-01');
-"""
-
-# Insertar datos en la tabla PRODUCTS
-insert_data_query_products = """
-INSERT INTO REGRESSION_DB.PUBLIC.PRODUCTS (PRODUCT_ID, PRODUCT_NAME, CATEGORY, PRICE) VALUES
-(1, 'Laptop', 'Electronics', 999.99),
-(2, 'Smartphone', 'Electronics', 699.99),
-(3, 'Tablet', 'Electronics', 399.99),
-(4, 'Headphones', 'Accessories', 199.99),
-(5, 'Smartwatch', 'Accessories', 299.99);
-"""
-
-# Insertar datos en la tabla SALES
-insert_data_query_sales = """
-INSERT INTO REGRESSION_DB.PUBLIC.SALES (SALE_ID, CUSTOMER_ID, PRODUCT_ID, SALE_DATE, QUANTITY, TOTAL_AMOUNT) VALUES
-(1, 1, 1, '2023-01-15', 1, 999.99),
-(2, 2, 2, '2023-02-15', 1, 699.99),
-(3, 3, 3, '2023-03-15', 1, 399.99),
-(4, 4, 4, '2023-04-15', 1, 199.99),
-(5, 5, 5, '2023-05-15', 1, 299.99);
-"""
-
-session.sql(insert_data_query_customers).collect()
-session.sql(insert_data_query_products).collect()
-session.sql(insert_data_query_sales).collect()
-
-
-
-from snowflake.snowpark import Session
-import os
 
 # Obtener las credenciales de Snowflake desde los secretos configurados
 creds = {
