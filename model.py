@@ -17,42 +17,47 @@ session = Session.builder.configs(creds).create()
 
 try:
     # Iniciar la transacción
+    print("Iniciando transacción...")
     session.sql("BEGIN;").collect()
     print("Transacción iniciada")
 
     # Primera inserción sin errores en SALES_ADVERTISING
+    print("Realizando primera inserción en SALES_ADVERTISING...")
     insert_data_query_1 = """
     INSERT INTO REGRESSION_DB.PUBLIC.SALES_ADVERTISING (ID, ADVERTISING_EXPENSE, SALES) VALUES
-    (66, 100.00, 200.00);
+    (55, 100.00, 200.00);
     """
     session.sql(insert_data_query_1).collect()
     print("Primera inserción realizada en SALES_ADVERTISING")
 
-    # Inserción en la tabla SALES
-    insert_data_query_3 = """
-    INSERT INTO REGRESSION_DB.PUBLIC.SALES (SALE_ID, CUSTOMER_ID, PRODUCT_ID, SALE_DATE, QUANTITY, TOTAL_AMOUNT) VALUES
-    (66, 101, 202, '2024-08-27', 2, 150.00);
-    """
-    session.sql(insert_data_query_3).collect()
-    print("Inserción realizada en SALES")
-
     # Segunda inserción con un error deliberado en SALES_ADVERTISING
+    print("Realizando segunda inserción en SALES_ADVERTISING con error deliberado...")
     insert_data_query_2 = """
     INSERT INTO REGRESSION_DB.PUBLIC.SALES_ADVERTISING (ID, ADVERTISING_EXPENSE, SALES, NON_EXISTENT_COLUMN) VALUES
-    (66, 300.00, 400.00, 'error');
+    (55, 300.00, 400.00, 'error');
     """
     session.sql(insert_data_query_2).collect()
     print("Segunda inserción realizada en SALES_ADVERTISING")
 
+    # Inserción en la tabla SALES
+    print("Realizando inserción en SALES...")
+    insert_data_query_3 = """
+    INSERT INTO REGRESSION_DB.PUBLIC.SALES (SALE_ID, CUSTOMER_ID, PRODUCT_ID, SALE_DATE, QUANTITY, TOTAL_AMOUNT) VALUES
+    (1, 101, 202, '2024-08-27', 2, 150.00);
+    """
+    session.sql(insert_data_query_3).collect()
+    print("Inserción realizada en SALES")
 
     # Confirmar la transacción
+    print("Confirmando transacción...")
     session.sql("COMMIT;").collect()
     print("Transacción confirmada")
 
 except Exception as e:
     # Si ocurre un error, revertir la transacción
+    print("Error durante la transacción, iniciando rollback...")
     session.sql("ROLLBACK;").collect()
-    print("Error durante la transacción, se ha revertido:", e)
+    print("Transacción revertida debido a un error:", e)
 
     # Obtener el ID de la última consulta fallida
     query_id = session.sql("SELECT LAST_QUERY_ID();").collect()[0][0]
