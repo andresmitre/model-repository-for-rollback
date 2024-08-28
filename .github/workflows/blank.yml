@@ -34,12 +34,12 @@ jobs:
         
       - name: Creates pipeline
         env:
-          SF_ACCOUNT: ${{ secrets.SF_ACCOUNT }}
-          SF_USER: ${{ secrets.SF_USER }}
-          SF_PWD: ${{ secrets.SF_PWD }}
-          SF_ROLE: ${{ secrets.SF_ROLE }}
-          SF_WAREHOUSE: ${{ secrets.SF_WAREHOUSE }}
-          SF_DATABASE: ${{ secrets.SF_DATABASE }}
-          SF_SCHEMA: ${{ secrets.SF_SCHEMA }}
+          SF_ACCOUNT_2: ${{ secrets.SF_ACCOUNT_2 }}
+          SF_USER_2: ${{ secrets.SF_USER_2 }}
+          SF_PWD_2: ${{ secrets.SF_PWD_2 }}
+          SF_ROLE_2: ${{ secrets.SF_ROLE_2 }}
+          SF_WAREHOUSE_2: ${{ secrets.SF_WAREHOUSE_2 }}
+          SF_DATABASE_2: ${{ secrets.SF_DATABASE_2 }}
+          SF_SCHEMA_2: ${{ secrets.SF_SCHEMA_2 }}
         run:
-          python $GITHUB_WORKSPACE/create_objects.py
+          python $GITHUB_WORKSPACE/feature_store_and_model_registry.py
