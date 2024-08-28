@@ -47,6 +47,32 @@ try:
     session.sql(insert_feature_store_query).collect()
     print("Datos insertados en la feature store")
 
+    # Reemplazo de todos los datos en la tabla SALES_ADVERTISING
+    print("Reemplazando todos los datos en la tabla SALES_ADVERTISING...")
+    truncate_query = "TRUNCATE TABLE REGRESSION_DB.PUBLIC.SALES_ADVERTISING"
+    session.sql(truncate_query).collect()
+
+    insert_query = """
+    INSERT INTO REGRESSION_DB.PUBLIC.SALES_ADVERTISING (ID, ADVERTISING_EXPENSE, SALES)
+    VALUES (999, 200.00, 300.00)
+    """
+    session.sql(insert_query).collect()
+    print("Datos insertados en la tabla SALES_ADVERTISING")
+
+
+    # Reemplazo de todos los datos en la tabla FEATURE_STORE
+    print("Reemplazando todos los datos en la tabla FEATURE_STORE...")
+    truncate_feature_store_query = "TRUNCATE TABLE REGRESSION_DB.PUBLIC.FEATURE_STORE"
+    session.sql(truncate_feature_store_query).collect()
+
+    insert_feature_store_query = """
+    INSERT INTO REGRESSION_DB.PUBLIC.FEATURE_STORE (FEATURE_ID, FEATURE_NAME, FEATURE_VALUE)
+    VALUES (2, 'Another Feature', 999.00)
+    """
+    session.sql(insert_feature_store_query).collect()
+    print("Datos insertados en la tabla FEATURE_STORE")
+
+
 
     #print("Actualizando feature store...")
     #insert_feature_store_query = """
