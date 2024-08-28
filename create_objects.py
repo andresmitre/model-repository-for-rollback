@@ -63,13 +63,13 @@ try:
     session.sql(insert_update_query).collect()
     print("Tabla SALES_ADVERTISING_2 actualizada")
 
-    print("Insertando datos en SALES_VIEW_2...")
-    insert_query = """
-    INSERT INTO REGRESSION_DB.PUBLIC.SALES_VIEW_2 (SALE_ID, CUSTOMER_ID, PRODUCT_ID, SALE_DATE, QUANTITY, TOTAL_AMOUNT)
-    VALUES (1001, 123, 456, '2024-08-28', 2, 500.00)
-    """
-    session.sql(insert_query).collect()
-    print("Datos insertados en SALES_VIEW_2")
+    #print("Insertando datos en SALES_VIEW_2...")
+    #insert_query = """
+    #INSERT INTO REGRESSION_DB.PUBLIC.SALES_VIEW_2 (SALE_ID, CUSTOMER_ID, PRODUCT_ID, SALE_DATE, QUANTITY, TOTAL_AMOUNT)
+    #VALUES (1001, 123, 456, '2024-08-28', 2, 500.00)
+    #"""
+    #session.sql(insert_query).collect()
+    #print("Datos insertados en SALES_VIEW_2")
 
     print("Incersión en feature store...")
     insert_feature_store_query = """
