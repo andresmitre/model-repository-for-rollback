@@ -24,7 +24,7 @@ try:
     # Crear tablas y vistas en el esquema
     print("Creando tabla SALES_ADVERTISING...")
     create_table_query = """
-    CREATE OR REPLACE TABLE REGRESSION_DB.PUBLIC.SALES_ADVERTISING_2 (
+    CREATE OR REPLACE TABLE REGRESSION_DB.PUBLIC.SALES_ADVERTISING_3 (
         ID INT,
         ADVERTISING_EXPENSE FLOAT,
         SALES FLOAT
@@ -35,7 +35,7 @@ try:
 
     print("Creando vista SALES_VIEW...")
     create_view_query = """
-    CREATE OR REPLACE VIEW REGRESSION_DB.PUBLIC.SALES_VIEW_2 AS
+    CREATE OR REPLACE VIEW REGRESSION_DB.PUBLIC.SALES_VIEW_3 AS
     SELECT SALE_ID, CUSTOMER_ID, PRODUCT_ID, SALE_DATE, QUANTITY, TOTAL_AMOUNT
     FROM REGRESSION_DB.PUBLIC.SALES;
     """
@@ -45,7 +45,7 @@ try:
     # Crear nuevas features en el feature store (simulado)
     print("Creando nuevas features en el feature store...")
     create_features_query = """
-    CREATE OR REPLACE TABLE REGRESSION_DB.PUBLIC.FEATURE_STORE_2 (
+    CREATE OR REPLACE TABLE REGRESSION_DB.PUBLIC.FEATURE_STORE_3 (
         FEATURE_ID INT,
         FEATURE_NAME STRING,
         FEATURE_VALUE FLOAT
@@ -57,7 +57,7 @@ try:
     # Inserción o actualización en tablas o vistas existentes
     print("Incersión tabla SALES_ADVERTISING_2...")
     insert_update_query = """
-    INSERT INTO REGRESSION_DB.PUBLIC.SALES_ADVERTISING_2 (ID, ADVERTISING_EXPENSE, SALES)
+    INSERT INTO REGRESSION_DB.PUBLIC.SALES_ADVERTISING_3 (ID, ADVERTISING_EXPENSE, SALES)
     VALUES (999, 150.00, 250.00)
     """
     session.sql(insert_update_query).collect()
@@ -73,7 +73,7 @@ try:
 
     print("Incersión en feature store...")
     insert_feature_store_query = """
-    INSERT INTO REGRESSION_DB.PUBLIC.FEATURE_STORE_2 (FEATURE_ID, FEATURE_NAME, FEATURE_VALUE)
+    INSERT INTO REGRESSION_DB.PUBLIC.FEATURE_STORE_3 (FEATURE_ID, FEATURE_NAME, FEATURE_VALUE)
     VALUES (9, 'New Feature', 999.00)
     """
     session.sql(insert_feature_store_query).collect()
