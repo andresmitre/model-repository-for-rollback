@@ -31,6 +31,15 @@ try:
         print(row)
     print("Consulta completada")
 
+    # Insertar los datos en la tabla feature store
+    print("Insertando datos en la tabla feature store...")
+    insert_query = """
+    INSERT INTO DB_MLLIVE.LIVE_FS.BANANA_FV$V1 (ID, SIZE, WEIGHT, SWEETNESS, SOFTNESS, HARVESTTIME, RIPENESS, ACIDITY, QUALITY)
+    VALUES (999, -1.9249682, 0.46807805, 3.0778325, -1.4721768, 0.2947986, 2.4355695, 0.27129033, 1)
+    """
+    session.sql(insert_query).collect()
+    print("Datos insertados")
+
     # Confirmar la transacción
     print("Confirmando transacción...")
     session.sql("COMMIT;").collect()
