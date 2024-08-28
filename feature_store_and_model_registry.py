@@ -38,7 +38,7 @@ try:
     print("Script ha terminado.")
 
 except Exception as e:
-    # Si ocurre un error, revertir la transacción
+    # Si ocurre un error, revertir la transacción.
     print("Error durante la transacción, iniciando rollback...")
     session.sql("ROLLBACK;").collect()
     print("Transacción revertida debido a un error:", e)
